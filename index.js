@@ -14,6 +14,7 @@ app.use(webhookHandler);
 
 webhookHandler.on("push", (repoName, data) => {
     const branch_name = data.ref.split("/")[data.ref.split("/").length-1];
+    console.log(repoName, branch_name);
     if (branch_name === "master" && repoName === "member-counter-bot") {
         console.log("true!")
     }
