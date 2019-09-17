@@ -13,9 +13,10 @@ app.use(bodyParser.json());
 app.use(webhookHandler);
 
 webhookHandler.on("push", (repoName, data) => {
-    const branch_name = data.ref.split("/")[data.ref.split("/").length-1]
-    console.log(branch_name);
-    
+    const branch_name = data.ref.split("/")[data.ref.split("/").length-1];
+    if (branch_name === "master" && repoName === "member-counter-bot") {
+        console.log("true!")
+    }
 });
 
 app.listen(PORT, () => {
