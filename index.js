@@ -10,10 +10,10 @@ let webhookHandler = GithubWebHook({ path: '/deploy', secret: SECRET });
 app.use(bodyParser.json());
 app.use(webhookHandler);
 
-webhookHandler.on('event', (repo, data) => {
+webhookHandler.on('push', (repo, data) => {
     console.log(repo, data);
 
-    
+
 });
 
 app.listen(PORT, () => { console.log("Port:", PORT) });
