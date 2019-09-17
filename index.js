@@ -17,7 +17,6 @@ app.post("/deploy", (req, res) => {
 
     console.log(req.headers)
     console.log(signData(SECRET, JSON.stringify(req.body)))
-
     if (verified) {
         const branchName = req.body.ref.split("/")[req.body.ref.split("/").length - 1];
 
