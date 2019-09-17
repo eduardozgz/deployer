@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(webhookHandler);
 
 webhookHandler.on('event', (repo, data) => {
-    console.log(repo, data)
+    console.log(repo, data);
 });
 
 app.listen(PORT, () => { console.log("Port:", PORT) });
