@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 require("dotenv").config();
-const { PORT, SECRET, REPO_NAME, BRANCH } = process.env;
+const { PORT, SECRET, REPO_NAME, BRANCH, DEPLOY_FILE } = process.env;
 const crypto = require("crypto");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -20,7 +20,7 @@ app.post("/deploy", (req, res) => {
 
         if (branchName === BRANCH && req.body.repository.name === REPO_NAME) {
             console.log("Deploy requested, attemping to run script...");
-            childProcess.execFile("./deploy.sh", (error, stdout, stderr) => {
+            childProcess.execFile(DEPLOY_FILE, (error, stdout, stderr) => {
                 if (error) throw error;
                 console.log(stdout);
               });
