@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 require("dotenv").config();
 const { PORT, SECRET } = process.env;
 const crypto = require("crypto");
