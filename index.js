@@ -7,9 +7,9 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post("/deploy", (req, res) => {
-    console.log(req.body.hook.config.secret);
+    console.log(req.body.hook);
     
-    
+
 });
 
 app.listen(PORT, () => { console.log("Port:", PORT) });
