@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post("/deploy", (req, res) => {
-    console.log(req.body.hook);
+    console.log(req.headers['X-Hub-Signature'])
     
 
 });
