@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post("/deploy", (req, res) => {
-    console.log(req.headers['X-Hub-Signature'])
+    console.log(req.header('X-Hub-Signature'))
     
 
 });
