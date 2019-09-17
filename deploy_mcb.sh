@@ -3,4 +3,4 @@
 cd ~/member-counter-bot/
 git fetch
 git pull
-sudo systemctl restart member-counter-bot
+sudo /bin/systemctl restart member-counter-bot
