@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(webhookHandler);
 
 webhookHandler.on('push', (repo, data) => {
-    console.log(repo, data);
+    console.log(repo);
 
 
 });
