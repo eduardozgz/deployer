@@ -13,15 +13,12 @@ app.use(bodyParser.json());
 
 app.post("/deploy", (req, res) => {
     console.log("Webhook received");
-
-    const { body } = req;
-    const unparsedBody = JSON.stringify(req.body);
-    
-    const verified = verifySignature(SECRET, unparsedBody, req.headers['X-Hub-Signature']);
+    const verified = req.headers['X-Hub-Signature'] === signData(SECRET, JSON.stringify(req.body));
 
     if (verified) {
-        const branchName = body.ref.split("/")[body.ref.split("/").length - 1];
-        if (branchName === "master" && body.repository.name === "deployer") {
+        const branchName = req.body.ref.split("/")[req.body.ref.split("/").length - 1];
+        
+        if (branchName === "master" && req.body.repository.name === "deployer") {
             console.log("Deploy requested, attemping to run script...")
             childProcess.execFile("./deploy.sh"); //todo error logging
         }
@@ -35,8 +32,4 @@ app.listen(PORT, () => {
 //https://github.com/Gisonrg/express-github-webhook/blob/master/index.js
 function signData(secret, data) {
 	return 'sha1=' + crypto.createHmac('sha1', secret).update(data).digest('hex');
-}
-
-function verifySignature(secret, data, signature) {
-	return bufferEq(new Buffer(signature), new Buffer(signData(secret, data)));
 }
