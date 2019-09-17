@@ -15,7 +15,7 @@ app.post("/deploy", (req, res) => {
     console.log("Webhook received");
     const verified = req.headers['X-Hub-Signature'] === signData(SECRET, JSON.stringify(req.body));
 
-    console.log(req.headers['X-Hub-Signature'])
+    console.log(req.headers)
     console.log(signData(SECRET, JSON.stringify(req.body)))
 
     if (verified) {
