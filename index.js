@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-require("dotenv").config();
-const { PORT, SECRET, REPO_NAME, BRANCH, DEPLOY_FILE } = process.env;
+
+const { deploys, port } = require("./deploys.json");
 const crypto = require("crypto");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -11,31 +11,36 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post("/deploy", (req, res) => {
-    console.log("Webhook received");
+    const requestId = new Date().getSeconds();
 
-    if (req.get("x-hub-signature") === signData(SECRET, JSON.stringify(req.body))) {
-        console.log("Authorized ✔");
+    console.log(`[${requestId}] `);
 
-        const branchName = req.body.ref.split("/")[req.body.ref.split("/").length - 1];
+    console.log(`[${requestId}] Webhook received.`);
 
-        if (branchName === BRANCH && req.body.repository.name === REPO_NAME) {
-            console.log("Deploy requested, attemping to run script...");
-            childProcess.execFile(DEPLOY_FILE, (error, stdout, stderr) => {
-                if (error) throw error;
-                console.log(stdout);
-              });
+    for (deploy of deploys) {
+        const { repository_full_name, branch_to_deploy, secret, deploy_tasks } = deploy;
+        const repositoryNameMatches = repository_full_name === req.body.repository.full_name;
+        const hasValidSignature = req.get("x-hub-signature") === signData(secret, JSON.stringify(req.body));
+        const branchPushedIsDeployable = branch_to_deploy === req.body.ref.split("/")[req.body.ref.split("/").length - 1];
+        if (repositoryNameMatches && hasValidSignature && branchPushedIsDeployable) {
+            console.log(`[${requestId}] Webhook authorized ✔`);
+            console.log(`[${requestId}] Running deploy tasks...`);
+            
+            runTasks();
         }
-    } else {
-        console.log("Unauthorized ❌");
     }
 });
 
-app.listen(PORT, () => {
-    console.log("Port:", PORT);
+app.listen(port, () => {
+    console.log("HTTP SERVER LISTENING @", port);
 });
 
+const runTasks = () => {
+    
+}
+
 //https://github.com/Gisonrg/express-github-webhook/blob/master/index.js
-function signData(secret, data) {
+const signData = (secret, data) => {
     return (
         "sha1=" +
         crypto
@@ -43,4 +48,4 @@ function signData(secret, data) {
             .update(data)
             .digest("hex")
     );
-}
+};

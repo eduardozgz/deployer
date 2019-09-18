@@ -1,0 +1,17 @@
+{
+    "port": 5050,
+    "deploys" : [
+        {
+            "repository_full_name": "eduardozgz/member-counter-bot",
+            "branch_to_deploy": "master",
+            "secret": "",
+            "deploy_tasks": [
+                "cd ~/member-counter-bot/",
+                "npm install",
+                "git fetch",
+                "git pull",
+                "sudo /bin/systemctl restart member-counter-bot"
+            ]
+        }
+    ]
+}

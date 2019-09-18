@@ -61,4 +61,4 @@ typings/
 .next
 
 # deploy files
-*.deploy
+deploys.json
