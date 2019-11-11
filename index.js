@@ -20,7 +20,7 @@ app.post("/deploy", (req, res) => {
             repository_full_name,
             branch_to_deploy,
             secret,
-            deploy_tasks
+            deploy_scripts
         } = deploy;
         const repositoryNameMatches = repository_full_name === req.body.repository.full_name;
         const hasValidSignature = req.get("x-hub-signature") === signData(secret, JSON.stringify(req.body));
@@ -28,8 +28,8 @@ app.post("/deploy", (req, res) => {
         if (repositoryNameMatches && hasValidSignature && branchPushedIsDeployable) {
             console.log(`Webhook authorized ✔`);
             console.log(`Running deploy scripts...`);
-            for (task of deploy_tasks) {
-                childProccess.execFileSync(task);
+            for (script of deploy_scripts) {
+                childProccess.execFileSync(script);
             }
         }
     }
