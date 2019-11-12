@@ -4,13 +4,9 @@
         {
             "repository_full_name": "eduardozgz/member-counter-bot",
             "branch_to_deploy": "master",
-            "secret": "",
+            "secret": "supersecretsecret",
             "deploy_tasks": [
-                "cd ~/member-counter-bot/",
-                "npm install",
-                "git fetch",
-                "git pull",
-                "sudo /bin/systemctl restart member-counter-bot"
+                "/home/eduardozgz/deployer/scripts/mcbot.sh"
             ]
         }
     ]
