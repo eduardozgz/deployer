@@ -13,7 +13,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.post("/deploy", (req, res) => {
+app.post("/", (req, res) => {
     console.log(`Webhook received.`);
     for (deploy of deploys) {
         const {
