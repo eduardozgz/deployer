@@ -2,7 +2,7 @@
 
 I just wanted to write a deployer by myself, it's probably that there is better options but this is enough for me
 
-Endopoint to post webhooks: `/deploy`
+Endopoint to post webhooks: `/`
 
 # Setup
 1. Install dependencies with `npm install`
