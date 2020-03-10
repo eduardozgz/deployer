@@ -13,7 +13,14 @@ module.exports = (req, res) => {
     });
 
     req.on('end', async () => {
-      const body = JSON.parse(rawBody);
+      let body = '';
+      try {
+        body = JSON.parse(rawBody);
+      } catch (e) {
+        console.log(e);
+        res.statusCode = 400;
+        res.end();
+      }
       for (const project of projects) {
         const { repository, branchToDeploy, secret, tasks } = project;
         const signature = req.headers['x-hub-signature'];
