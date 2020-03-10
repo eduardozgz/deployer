@@ -1,10 +1,8 @@
 {
   "name": "deployer",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "A simple deployment server that works with github webhooks",
   "main": "index.js",
-  "dependencies": {},
-  "devDependencies": {},
   "scripts": {
     "start": "node ."
   },
@@ -12,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/eduardozgz/deployer.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "eduardozgz",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/eduardozgz/deployer/issues"
   },

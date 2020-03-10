@@ -1,0 +1,16 @@
+{
+  "SECURE_SERVER": false,
+  "PRIVATE_KEY": "",
+  "CERT": "",
+  "PORT": 5050,
+  "projects": [
+    {
+      "repository": "user-or-org/repo-name",
+      "branchToDeploy": "master",
+      "secret": "superscretsecret",
+      "tasks": [
+        "/path/to/script.sh"
+      ]
+    }
+  ]
+}

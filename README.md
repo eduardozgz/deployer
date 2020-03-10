@@ -1,13 +1,47 @@
 # deployer
+A simple deployment server that works with github webhooks
 
-I just wanted to write a deployer by myself, it's probably that there is better options but this is enough for me
+## Installation
+### 1. config.json
+Copy config.json.example to config.json and fill out the fields.
 
-Endopoint to post webhooks: `/`
+`SECURE_SERVER`: Set it to `true` if do you wish to listen for webhook over HTTPS (not necessary if deployer is already behind a reverse proxy with HTTPS)
+`PRIVATE_KEY`: Required if `SECURE_SERVER` is `true`, the path to the private key
+`CERT`: Required if `SECURE_SERVER` is `true`, the path to the cert
+`PORT`: The desired port that will be used to listen for webhooks
+`project`: An array of project objects
 
-# Setup
-1. Install dependencies with `npm install`
- 
-2. Copy deploys.json.example to deploys.json and fill the fields with your custom settings and add the path to your own installation script in the `deploy_tasks` array
+#### Project object
+```json
+{
+      "repository": "user-or-org/repo-name",
+      "branchToDeploy": "master",
+      "secret": "superscretsecret",
+      "tasks": [
+        "/path/to/script.sh"
+      ]
+    }
+```
+`repository`: If we were to deploy this project, the value would be `eduardozgz/deployer`
+`branchToDeploy`: The desired branch to be deployed, this is usually `master`
+`secret`: This is like a password, choose something strong and never share it
+`tasks`: An array of strings, as value, the path to the installation scripts for your project, a script would look like this:
+```sh
+#!/bin/bash
+cd /path/to/your/project
+npm install && systemctl restart your-app.service
+```
 
-3. Test that it works with `node index.js`, and remember to add a webhook in your repo's settings 
+### 2. Receiving webhooks
+Go to your repository settings on github, go to webhooks and add one
 
+As payload URL, add the host where deployer is running (remember to open the firewall if it's necessary)
+
+Change the content type to `application/json`
+
+Enter the secret that you used in the config.json
+
+And add the webhook
+
+### 3. Start it!
+Run `node .`
