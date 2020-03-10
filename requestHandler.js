@@ -17,7 +17,6 @@ module.exports = (req, res) => {
       try {
         body = JSON.parse(rawBody);
       } catch (e) {
-        console.log(e);
         res.statusCode = 400;
         res.end();
         return;
