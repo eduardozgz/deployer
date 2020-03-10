@@ -35,8 +35,8 @@ module.exports = (req, res) => {
             }
 
             case 'push': {              
-              const receivedBranchName = body.ref.split('/')[body.ref.split('/').length - 1];
-              if (branchToDeploy === receivedBranchName) {
+              const payloadBranch = body.ref.split('/')[body.ref.split('/').length - 1];
+              if (payloadBranch === branchToDeploy) {
                 console.log(`[${repository}#${branchToDeploy}] Push event received, running tasks...`);
                 for (const task of tasks) {
                   childProccess.execFileSync(task);
