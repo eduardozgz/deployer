@@ -1,5 +1,6 @@
 const isSignatureValid = require('./isSignatureValid');
 const childProccess = require('child_process');
+const { projects } = require('./config.json');
 
 // TODO add webhook test support
 
@@ -16,16 +17,16 @@ module.exports = (req, res) => {
       for (const project of projects) {
         const { repository, branchToDeploy, secret, tasks } = project;
         const signature = req.headers['x-hub-signature'];
-        const receivedBranchName = body.ref.split('/')[body.ref.split('/').length - 1];
 
-        if (repository === body.repository.full_name && branchToDeploy === receivedBranchName) {
-          if (signature && !isSignatureValid(signature, secret, body)) {
+        if (repository === body.repository.full_name) {
+          if (secret && !isSignatureValid(signature, secret, JSON.stringify(body))) {
+            console.log(`[${repository}] Webhook NOT authorized ❌`);
             res.statusCode = 401;
             res.end();
             return;
           }
           
-          console.log(`[${repository}#${branchToDeploy}] Webhook authorized ✔`);
+          console.log(`[${repository}] Webhook authorized ✔`);
 
           switch (req.headers['x-github-event']) {
             case 'ping': {
@@ -33,11 +34,14 @@ module.exports = (req, res) => {
               break;
             }
 
-            case 'push': {
+            case 'push': {              
+              const receivedBranchName = body.ref.split('/')[body.ref.split('/').length - 1];
+              if (branchToDeploy === receivedBranchName) {
                 console.log(`[${repository}#${branchToDeploy}] Push event received, running tasks...`);
                 for (const task of tasks) {
                   childProccess.execFileSync(task);
                 }
+              }
               break;
             }
           }
