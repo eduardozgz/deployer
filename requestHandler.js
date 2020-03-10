@@ -20,6 +20,7 @@ module.exports = (req, res) => {
         console.log(e);
         res.statusCode = 400;
         res.end();
+        return;
       }
       for (const project of projects) {
         const { repository, branchToDeploy, secret, tasks } = project;
