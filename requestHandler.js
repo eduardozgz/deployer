@@ -1,8 +1,8 @@
 const isSignatureValid = require('./isSignatureValid');
 const childProccess = require('child_process');
+const util = require('util');
+const execFile = util.promisify(childProccess.execFile);
 const { projects } = require('./config.json');
-
-// TODO add webhook test support
 
 module.exports = (req, res) => {
   if (req.headers['content-type'] === 'application/json') {
@@ -46,7 +46,9 @@ module.exports = (req, res) => {
               if (payloadBranch === branchToDeploy) {
                 console.log(`[${repository}#${branchToDeploy}] Push event received, running tasks...`);
                 for (const task of tasks) {
-                  childProccess.execFileSync(task);
+                  const { stdout, stderr } = await execFile(task);
+                  console.log(stdout);
+                  console.error(stderr);
                 }
               }
               break;
