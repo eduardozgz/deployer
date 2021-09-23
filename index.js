@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const { PORT, SECURE_SERVER, PRIVATE_KEY, CERT } = require('./config.json');
-const http = require('http');
-const https = require('https');
-const requestHandler = require('./requestHandler');
+const { PORT, SECURE_SERVER, PRIVATE_KEY, CERT } = require("./config.json");
+const http = require("http");
+const https = require("https");
+const requestHandler = require("./requestHandler");
 
 if (SECURE_SERVER) {
   const options = {
@@ -11,10 +11,10 @@ if (SECURE_SERVER) {
   };
 
   https.createServer(options, requestHandler).listen(PORT, () => {
-    console.log('HTTPS SERVER LISTENING @', PORT);
+    console.log("HTTPS SERVER LISTENING @", PORT);
   });
 } else {
   http.createServer(requestHandler).listen(PORT, () => {
-    console.log('HTTP SERVER LISTENING @', PORT);
+    console.log("HTTP SERVER LISTENING @", PORT);
   });
 }

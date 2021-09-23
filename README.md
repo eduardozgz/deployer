@@ -1,5 +1,5 @@
 # deployer
-A simple deployment server that works with github webhooks
+A 0 dependency, simple, deployment server that works with github webhooks
 
 ## Installation
 ### 1. config.json
