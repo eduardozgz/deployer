@@ -81,7 +81,7 @@ module.exports = (req, res) => {
                     });
                   }
 
-                  log("All tasks has been run successfully");
+                  log("All tasks have been run successfully");
                 } catch (error) {
                   if (code in error) {
                     log(
