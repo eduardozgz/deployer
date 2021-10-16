@@ -83,11 +83,11 @@ module.exports = (req, res) => {
 
                   log("All tasks have been run successfully");
                 } catch (error) {
-                  if (code in error) {
+                  if ("code" in error) {
                     log(
                       `Something went wrong while running the task #${error.task}: exited with code ${error.code}`
                     );
-                  } else if (error in error) {
+                  } else if ("error" in error) {
                     log(
                       `Something went wrong while running the task #${error.task}: ${error.error}`
                     );
